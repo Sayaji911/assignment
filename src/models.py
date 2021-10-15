@@ -1,7 +1,6 @@
 from sqlalchemy import DateTime, Column, String, Integer, CheckConstraint, ForeignKey, DECIMAL
 from datetime import time
 from src.database import Base
-from typing import Optional
 from sqlalchemy.orm import relationship
 
 
@@ -11,7 +10,6 @@ class Country(Base):
     __tablename__ = "Country"
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
-
 
 
 # Profile model inheriting from Base class
@@ -26,6 +24,15 @@ class Profile(Base):
     position = Column(Integer, nullable=False)
     __table_args__ = (CheckConstraint(matches_won <= matches_played and
                                       matches_lost <= matches_played))
+
+
+# Teams model inheriting from Base class
+# with tablename as Teams and rows as id and name
+class Teams(Base):
+    __tablename__ = "Teams"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
+    players = relationship( lambda : Player.id)
 
 
 # Player model inheriting from Base class
@@ -43,43 +50,36 @@ class Player:
     dob = Column(DateTime, nullable=False)
     __tableargs__ = (CheckConstraint(age > 0 and height > 0))
 
-# Teams model inheriting from Base class
-# with tablename as Teams and rows as id and name
-class Teams(Base):
-    __tablename__ = "Teams"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    players = relationship(Player.id)
-
-
 
 class BattingProfile(Base):
     __tablename__ = 'BattingProfile'
 
-    id = Column(Integer,primary_key=True)
-    Player_id = Column(Integer,relationship(Player.id))
-    highest_runs = Column(Integer,nullable=False)
-    current_runs = Column(Integer,nullable=False)
-    matches_played = Column(Integer,nullable=False)
-    sixers = Column(Integer,nullable=False)
-    fours = Column(Integer,nullable=False)
-    full_centuries = Column(Integer,nullable=False)
-    half_centuries = Column(Integer,nullable=False)
+    id = Column(Integer, primary_key=True)
+    Player_id = Column(Integer, relationship(Player.id))
+    highest_runs = Column(Integer, nullable=False)
+    current_runs = Column(Integer, nullable=False)
+    matches_played = Column(Integer, nullable=False)
+    sixers = Column(Integer, nullable=False)
+    fours = Column(Integer, nullable=False)
+    full_centuries = Column(Integer, nullable=False)
+    half_centuries = Column(Integer, nullable=False)
+
 
 class BowlingProfile(Base):
     __tablename__ = "BowlingProfile"
 
-    id = Column(Integer,primary_key=True)
-    Player_id = Column(Integer,relationship(Player.id))
+    id = Column(Integer, primary_key=True)
+    Player_id = Column(Integer, relationship(Player.id))
     matches_played = Column(Integer, nullable=False)
-    wickets = Column(Integer,nullable=False)
-    deliveries = Column(Integer,nullable=False)
+    wickets = Column(Integer, nullable=False)
+    deliveries = Column(Integer, nullable=False)
+
 
 class Matches(Base):
     __tablename__ = 'Matches'
     id = Column(Integer, primary_key=True)
     date = Column(DateTime, nullable=False)
-    time = Column(time,nullable=False)
+    time = Column(time, nullable=False)
     venue = Column(Integer, nullable=False)
 
 
@@ -117,3 +117,16 @@ class Results(Base):
 
     id = Column(Integer, primary_key=True)
     result = Column(String(300), nullable=False)
+
+
+class Tournament(Base):
+    __tablename__ = 'Tournament'
+    id = Column(Integer, primary_key=True)
+    teams = Column(Integer)
+    name = Column(String(200), nullable=False)
+    tournament_start = Column(DateTime, nullable=False)
+    tournament_end = Column(DateTime, nullable=False)
+    first_team = Column(String(200), nullable=False)
+    second_team = Column(String(200), nullable=False)
+    third_team = Column(String(200), nullable=False)
+    match = relationship(Matches)
