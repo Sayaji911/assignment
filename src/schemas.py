@@ -1,16 +1,20 @@
-from typing import List,Optional
+from typing import List, Optional
 from pydantic import BaseModel
-from datetime import date ,time
+from datetime import date, time
+
 
 class BaseCountry(BaseModel):
     name = str
+
 
 class Country(BaseCountry):
     class Config():
         orm_mode = True
 
+
 class ShowCountry(BaseCountry):
     name = str
+
     class Config():
         orm_mode = True
 
@@ -27,6 +31,7 @@ class BasePlayer(BaseModel):
 class Player(BasePlayer):
     class Config():
         orm_mode = True
+
 
 class ShowPlayer(BaseModel):
     name = str
@@ -50,6 +55,7 @@ class Match(BaseMatch):
     class Config():
         orm_mode = True
 
+
 class ShowMatch(BaseModel):
     date = date
     time = time
@@ -57,3 +63,5 @@ class ShowMatch(BaseModel):
 
     class Config():
         orm_mode = True
+
+
