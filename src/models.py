@@ -52,7 +52,7 @@ class Matches(Base):
     date = Column(DateTime,nullable=False)
     time = Column(time)
     venue = Column(Integer,nullable=False)
-    toss_winner = None
+
 
 
 class Venue(Base):
@@ -60,6 +60,30 @@ class Venue(Base):
     id = Column(Integer,primary_key=True)
     stadium_name = Column(String(100),nullable=False)
     city = Column(String(100),nullable=False)
+
+
+class MatchSummary(Base):
+    __tablename__ = "MatchSummary"
+
+    id = Column(Integer,primary_key=True)
+    team_1 = Column(Integer)
+    team_2 = Column(Integer)
+    toss_winner_team = Column(Integer)
+    first_innings_team = Column(Integer)
+    second_innigs_team = Column(Integer)
+    captain_team_1 = Column(Integer)
+    captain_team_2 = Column(Integer)
+    winner_team = Column(Integer)
+    losing_team = Column(Integer)
+    man_of_the_match = Column(Integer)
+    bowler_of_the_match = Column(Integer)
+    team_1_runs = Column(Integer)
+    team_2_runs = Column(Integer)
+    team_1_wickets = Column(Integer)
+    team_2_wickets = Column(Integer)
+    best_fielder = Column(Integer)
+
+
 
 
 
