@@ -22,8 +22,8 @@ class Profile(Base):
     matches_won = Column(Integer, nullable=False)
     matches_lost = Column(Integer, nullable=False)
     position = Column(Integer, nullable=False)
-    __table_args__ = (CheckConstraint(matches_won <= matches_played and
-                                      matches_lost <= matches_played))
+#    __table_args__ = (CheckConstraint(matches_won <= matches_played and
+ #                                     matches_lost <= matches_played))
 
 
 # Teams model inheriting from Base class
@@ -48,14 +48,14 @@ class Player:
     height = Column(Integer, nullable=False)
     role_in_id = Column(Integer, nullable=False)
     dob = Column(DateTime, nullable=False)
-    __tableargs__ = (CheckConstraint(age > 0 and height > 0))
+#    __tableargs__ = (CheckConstraint(age > 0 and height > 0))
 
 
 class BattingProfile(Base):
     __tablename__ = 'BattingProfile'
 
     id = Column(Integer, primary_key=True)
-    Player_id = Column(Integer, relationship(Player.id))
+    Player_id = relationship(Player.id)
     highest_runs = Column(Integer, nullable=False)
     current_runs = Column(Integer, nullable=False)
     matches_played = Column(Integer, nullable=False)
@@ -69,7 +69,7 @@ class BowlingProfile(Base):
     __tablename__ = "BowlingProfile"
 
     id = Column(Integer, primary_key=True)
-    Player_id = Column(Integer, relationship(Player.id))
+    Player_id = relationship(Player.id)
     matches_played = Column(Integer, nullable=False)
     wickets = Column(Integer, nullable=False)
     deliveries = Column(Integer, nullable=False)
@@ -79,7 +79,7 @@ class Matches(Base):
     __tablename__ = 'Matches'
     id = Column(Integer, primary_key=True)
     date = Column(DateTime, nullable=False)
-    time = Column(time, nullable=False)
+    time = Column(DateTime, nullable=False)
     venue = Column(Integer, nullable=False)
     type = Column(String(100),nullable=False)
 
