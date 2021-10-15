@@ -45,7 +45,7 @@ class Player:
     name = Column(String(100), nullable=False)
     team = Column(Integer, ForeignKey(Teams.id))
     age = Column(Integer, nullable=False)
-    height = Column(DECIMAL, nullable=False)
+    height = Column(Integer, nullable=False)
     role_in_id = Column(Integer, nullable=False)
     dob = Column(DateTime, nullable=False)
     __tableargs__ = (CheckConstraint(age > 0 and height > 0))
@@ -81,6 +81,7 @@ class Matches(Base):
     date = Column(DateTime, nullable=False)
     time = Column(time, nullable=False)
     venue = Column(Integer, nullable=False)
+    type = Column(String(100),nullable=False)
 
 
 class Venue(Base):
