@@ -1,4 +1,5 @@
 from sqlalchemy import DateTime, Column, String, Integer, CheckConstraint, ForeignKey, DECIMAL
+from database import time
 from src.database import  Base
 from typing import Optional
 from sqlalchemy.orm import relationship
@@ -45,10 +46,22 @@ class Player:
     dob = Column(DateTime,nullable=False)
     __tableargs__ = (CheckConstraint(age > 0 and height > 0))
 
-class Matche(Base):
-    __tablename__ = 'Matche'
+class Matches(Base):
+    __tablename__ = 'Matches'
     id = Column(Integer,primary_key=True)
     date = Column(DateTime,nullable=False)
-    
+    time = Column(time)
+    venue = Column(Integer,nullable=False)
+    toss_winner = None
+
+
+class Venue(Base):
+    __tablename__  = 'Venue'
+    id = Column(Integer,primary_key=True)
+    stadium_name = Column(String(100),nullable=False)
+    city = Column(String(100),nullable=False)
+
+
+
 
 
