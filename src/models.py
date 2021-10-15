@@ -1,4 +1,4 @@
-from sqlalchemy import DateTime, Column, String, Integer, CheckConstraint, ForeignKey
+from sqlalchemy import DateTime, Column, String, Integer, CheckConstraint, ForeignKey, DECIMAL
 from src.database import  Base
 from typing import Optional
 from sqlalchemy.orm import relationship
@@ -34,8 +34,21 @@ class Profile(Base):
 #with tablename as Player and rows as id and name and
 # team will be in referenced to primary key of teams table
 class Player:
+    __tablename__ = 'Player'
+
     id = Column(Integer,primary_key=True)
     name = Column(String(100),nullable=False)
     team = Column(Integer,ForeignKey(Teams.id))
     age = Column(Integer,nullable=False)
+    height = Column(DECIMAL,nullable=False)
+    role_in_id = Column(Integer,nullable=False)
+    dob = Column(DateTime,nullable=False)
+    __tableargs__ = (CheckConstraint(age > 0 and height > 0))
+
+class Matche(Base):
+    __tablename__ = 'Matche'
+    id = Column(Integer,primary_key=True)
+    date = Column(DateTime,nullable=False)
+    
+
 
