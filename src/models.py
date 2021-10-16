@@ -33,6 +33,7 @@ class Teams(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
     players = relationship( lambda : Player.id)
+    country = Column(Integer,nullable=False)
 
 
 # Player model inheriting from Base class
@@ -83,7 +84,6 @@ class Matches(Base):
     venue = Column(Integer, nullable=False)
     type = Column(String(100),nullable=False)
 
-
 class Venue(Base):
     __tablename__ = 'Venue'
     id = Column(Integer, primary_key=True)
@@ -131,3 +131,13 @@ class Tournament(Base):
     second_team = Column(String(200), nullable=False)
     third_team = Column(String(200), nullable=False)
     match = relationship(Matches)
+
+class TeamProfile(Base):
+    __tablename__ ='TeamProfile'
+    id = Column(Integer,primary_key=True)
+    team = Column(Integer,relationship(Teams.id))
+    wins = Column(Integer,nullable=False)
+    loses = Column(Integer,nullable=False)
+    matches_played = Column(Integer,nullable=False)
+    rank = Column(Integer, nullable=False)
+

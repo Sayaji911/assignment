@@ -178,9 +178,63 @@ class BallingProfile(BaseBallingProfile):
     class Config():
         orm_mode = True
 
-class ShowBallingProfie(BaseModel):
+class ShowBallingProfile(BaseModel):
     Player_id = int
     matches_played = int
     wickets = int
     deliveries = int
+
+    class Config():
+        orm_mode = True
+
+class BaseTeams(BaseModel):
+    name = str
+    country = int
+
+class Teams(BaseTeams):
+    class Config():
+        orm_mode = True
+
+class ShowTeams(BaseModel):
+    name = str
+    country = int
+
+    class Config():
+        orm_mode = True
+
+class BaseTeamProfile(BaseModel):
+    wins = int
+    loses = int
+    matches_played = int
+    rank = int
+
+class TeamProfile(BaseTeamProfile):
+    class Config():
+        orm_mode = True
+
+class ShowTeamProfile(BaseModel):
+    wins = int
+    loses = int
+    matches_plyed = int
+    rank = int
+    team = int
+
+    class Config():
+        orm_mode = True
+
+class BaseTournament(BaseModel):
+    teams = int
+    name = str
+    tournament_start = date
+    tournament_end = date
+    first_team = str
+    second_team = str
+    third_team =str
+
+class Tournament(BaseTournament):
+    class Config():
+        orm_mode = True
+
+class ShowTournament(BaseModel):
+    orm_mode = True
 
