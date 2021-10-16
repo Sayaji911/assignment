@@ -99,7 +99,7 @@ class MatchSummary(Base):
     team_2 = Column(Integer)
     toss_winner_team = Column(Integer)
     first_innings_team = Column(Integer)
-    second_innigs_team = Column(Integer)
+    second_innings_team = Column(Integer)
     captain_team_1 = Column(Integer)
     captain_team_2 = Column(Integer)
     winner_team = Column(Integer)

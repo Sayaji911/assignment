@@ -8,3 +8,4 @@ async def root():
     return {
       "  Cricket Rest API"
     }
+
