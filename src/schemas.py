@@ -4,7 +4,6 @@ from datetime import date, time
 
 
 class BaseCountry(BaseModel):
-    # team_name: Optional[str] = None
 
     country_name: str
 

@@ -125,7 +125,7 @@ class PlayerRole(Base):
     role_name = Column(String, nullable=True)
 
 
-#class Team h
+#class Team with column havig many to many relationship with Class TeamProfile
 class Team(Base):
     __tablename__ = "Team"
 
@@ -134,7 +134,8 @@ class Team(Base):
     country_id = Column(Integer)
     player = relationship("Player")
     team_profile = relationship("TeamProfile")
-    
+
+#this class has column team_id with points to Class Teams id.
 class TeamProfile(Base):
     __tablename__ = "TeamProfile"
 
@@ -145,7 +146,7 @@ class TeamProfile(Base):
     rank = Column(Integer, nullable=True)
     team_id = Column(Integer, ForeignKey('Team.id'))
 
-
+#class tournament having column match which points to Match class so it can show the specific matchs detail
 class Tournament(Base):
     __tablename__ = "Tournament"
 
