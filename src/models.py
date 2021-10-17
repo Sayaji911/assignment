@@ -8,136 +8,163 @@ from sqlalchemy.orm import relationship
 # with tablename as country and rows as id and name
 class Country(Base):
     __tablename__ = "Country"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-
-
-# Profile model inheriting from Base class
-# with tablename as Profile and rows as id, name, matches_played, won and lost, and current postition
-# also matches won and lost should always be less than total matches played
-class Profile(Base):
-    __tablename__ = 'Profile'
-    id = Column(Integer, primary_key=True)
-    matches_played = Column(Integer, nullable=False)
-    matches_won = Column(Integer, nullable=False)
-    matches_lost = Column(Integer, nullable=False)
-    position = Column(Integer, nullable=False)
-#    __table_args__ = (CheckConstraint(matches_won <= matches_played and
- #                                     matches_lost <= matches_played))
-
-
-# Teams model inheriting from Base class
-# with tablename as Teams and rows as id and name
-class Teams(Base):
-    __tablename__ = "Teams"
-    id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    players = relationship( lambda : Player.id)
-    country = Column(Integer,nullable=False)
-
-
-# Player model inheriting from Base class
-# with tablename as Player and rows as id and name and
-# team will be in referenced to primary key of teams table
-class Player:
-    __tablename__ = 'Player'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(100), nullable=False)
-    team = Column(Integer, ForeignKey(Teams.id))
-    age = Column(Integer, nullable=False)
-    height = Column(Integer, nullable=False)
-    role_in_id = Column(Integer, nullable=False)
-    dob = Column(DateTime, nullable=False)
-#    __tableargs__ = (CheckConstraint(age > 0 and height > 0))
+    country_name = Column(String, nullable=True)
 
-
-class BattingProfile(Base):
-    __tablename__ = 'BattingProfile'
+#Model Match having colomn
+#tournament pointing to tournaments id
+#column match_summary relationship with MatchSummary class
+class Match(Base):
+    __tablename__ = "Match"
 
     id = Column(Integer, primary_key=True)
-    Player_id = relationship(Player.id)
-    highest_runs = Column(Integer, nullable=False)
-    current_runs = Column(Integer, nullable=False)
-    matches_played = Column(Integer, nullable=False)
-    sixers = Column(Integer, nullable=False)
-    fours = Column(Integer, nullable=False)
-    full_centuries = Column(Integer, nullable=False)
-    half_centuries = Column(Integer, nullable=False)
+    match_date = Column(DateTime, nullable=True)
+    venue_id = Column(Integer)
+    tournament_id = Column(Integer, ForeignKey('Tournament.id'))
+    match_summary = relationship("MatchSummary")
 
-
-class BowlingProfile(Base):
-    __tablename__ = "BowlingProfile"
+class MatchResult(Base):
+    __tablename__ = "MatchResult"
 
     id = Column(Integer, primary_key=True)
-    Player_id = relationship(Player.id)
-    matches_played = Column(Integer, nullable=False)
-    wickets = Column(Integer, nullable=False)
-    deliveries = Column(Integer, nullable=False)
-
-
-class Matches(Base):
-    __tablename__ = 'Matches'
-    id = Column(Integer, primary_key=True)
-    date = Column(DateTime, nullable=False)
-    time = Column(DateTime, nullable=False)
-    venue = Column(Integer, nullable=False)
-    type = Column(String(100),nullable=False)
-
-class Venue(Base):
-    __tablename__ = 'Venue'
-    id = Column(Integer, primary_key=True)
-    stadium_name = Column(String(100), nullable=False)
-    city = Column(String(100), nullable=False)
+    match_result = Column(String, nullable=True)
 
 
 class MatchSummary(Base):
     __tablename__ = "MatchSummary"
 
     id = Column(Integer, primary_key=True)
-    team_1 = Column(Integer)
-    team_2 = Column(Integer)
-    toss_winner_team = Column(Integer)
-    first_innings_team = Column(Integer)
-    second_innings_team = Column(Integer)
-    captain_team_1 = Column(Integer)
-    captain_team_2 = Column(Integer)
-    winner_team = Column(Integer)
-    losing_team = Column(Integer)
-    man_of_the_match = Column(Integer)
-    bowler_of_the_match = Column(Integer)
-    team_1_runs = Column(Integer)
-    team_2_runs = Column(Integer)
-    team_1_wickets = Column(Integer)
-    team_2_wickets = Column(Integer)
-    best_fielder = Column(Integer)
+    team_1_id = Column(Integer)
+    team_2_id = Column(Integer)
+    captain_player_1_id = Column(Integer)
+    captain_player_2_id = Column(Integer)
+    man_of_match_player_id = Column(Integer)
+    bowler_of_match_player_id = Column(Integer)
+    winner_team_id = Column(Integer)
+    loser_team_id = Column(Integer)
+    team_1_score = Column(Integer)
+    team_2_score = Column(Integer)
+    team_1_wicket = Column(Integer)
+    team_2_wicket = Column(Integer)
+    first_inning_team_id = Column(Integer)
+    match_result_type_id = Column(Integer)
+    #players match id is pointed to class Match id
+    match_id = Column(Integer, ForeignKey('Match.id'))
 
 
-class Results(Base):
-    __tablename__ = "Results"
+
+class MatchType(Base):
+    __tablename__ = "MatchType"
 
     id = Column(Integer, primary_key=True)
-    result = Column(String(300), nullable=False)
+    match_type = Column(String, nullable=True)
+    
+#class Player with coloumn team_id pointin to class Teams id
+#column playerbat_profile, bowl_profile having many to many relationship with
+#PlayerBatProfile and PlayerBowlProfile
+class Player(Base):
+    __tablename__ = "Player"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=True)
+    age = Column(Integer, nullable=True)
+    dob = Column(DateTime, nullable=True)
+    retirement_date = Column(DateTime, nullable=True)
+    player_role_id = Column(Integer)
+    team_id = Column(Integer, ForeignKey('Team.id'))
+    player_bat_profile = relationship("PlayerBatProfile")
+    player_bowl_profile = relationship("PlayerBowlProfile")
+
+
+#Class PlayerBatProfile
+#having coloumn player_id pointing to class Players id
+class PlayerBatProfile(Base):
+    __tablename__ = "PlayerBatProfile"
+
+    id = Column(Integer, primary_key=True)
+    matches = Column(Integer, nullable=True)
+    innings = Column(Integer, nullable=True)
+    no_of_not_outs = Column(Integer, nullable=True)
+    runs = Column(Integer, nullable=True)
+    highest_score = Column(Integer, nullable=True)
+    average = Column(Integer, nullable=True)
+    no_of_balls_faced = Column(Integer, nullable=True)
+    strike_rate = Column(Integer, nullable=True)
+    half_centuries = Column(Integer, nullable=True)
+    full_centuries = Column(Integer, nullable=True)
+    boundaries = Column(Integer, nullable=True)
+    sixes = Column(Integer, nullable=True)
+    player_id = Column(Integer, ForeignKey('Player.id'))
+
+#Class PlayerBowlProfile
+#having coloumn player_id pointing to class Players id
+class PlayerBowlProfile(Base):
+    __tablename__ = "PlayerBowlProfile"
+
+    id = Column(Integer, primary_key=True)
+    matches = Column(Integer, nullable=True)
+    innings = Column(Integer, nullable=True)
+    no_of_deliveries = Column(Integer, nullable=True)
+    runs = Column(Integer, nullable=True)
+    wickets = Column(Integer, nullable=True)
+    best_bowling_in_match = Column(Integer, nullable=True)
+    economy = Column(String, nullable=True)
+    average = Column(Integer, nullable=True)
+    SR = Column(String, nullable=True)
+    W5 = Column(String, nullable=True)
+    W10 = Column(String, nullable=True)
+    player_id = Column(Integer, ForeignKey('Player.id'))
+
+
+
+class PlayerRole(Base):
+    __tablename__ = "PlayerRole"
+
+    id = Column(Integer, primary_key=True)
+    role_name = Column(String, nullable=True)
+
+
+#class Team h
+class Team(Base):
+    __tablename__ = "Team"
+
+    id = Column(Integer, primary_key=True)
+    team_name = Column(String, nullable=True)
+    country_id = Column(Integer)
+    player = relationship("Player")
+    team_profile = relationship("TeamProfile")
+    
+class TeamProfile(Base):
+    __tablename__ = "TeamProfile"
+
+    id = Column(Integer, primary_key=True)
+    total_wins = Column(Integer, nullable=True)
+    total_loses = Column(Integer, nullable=True)
+    no_of_matches = Column(Integer, nullable=True)
+    rank = Column(Integer, nullable=True)
+    team_id = Column(Integer, ForeignKey('Team.id'))
 
 
 class Tournament(Base):
-    __tablename__ = 'Tournament'
-    id = Column(Integer, primary_key=True)
-    teams = Column(Integer)
-    name = Column(String(200), nullable=False)
-    tournament_start = Column(DateTime, nullable=False)
-    tournament_end = Column(DateTime, nullable=False)
-    first_team = Column(String(200), nullable=False)
-    second_team = Column(String(200), nullable=False)
-    third_team = Column(String(200), nullable=False)
-    match = relationship(Matches)
+    __tablename__ = "Tournament"
 
-class TeamProfile(Base):
-    __tablename__ ='TeamProfile'
-    id = Column(Integer,primary_key=True)
-    team = Column(Integer,relationship(Teams.id))
-    wins = Column(Integer,nullable=False)
-    loses = Column(Integer,nullable=False)
-    matches_played = Column(Integer,nullable=False)
-    rank = Column(Integer, nullable=False)
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=True)
+    first_place_team_id = Column(String, nullable=True)
+    second_place_team_id = Column(String, nullable=True)
+    third_place_team_id = Column(String, nullable=True)
+    start_date = Column(DateTime, nullable=True)
+    end_date = Column(DateTime, nullable=True)
+    total_points = Column(Integer, nullable=True)
+    team_id = Column(Integer)
+    match = relationship("Match")
+
+class Venue(Base):
+    __tablename__ = "Venue"
+
+    id = Column(Integer, primary_key=True)
+    venue_name = Column(String, nullable=True)
+    venue_location = Column(String, nullable=True)
+
 

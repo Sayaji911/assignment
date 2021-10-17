@@ -1,240 +1,328 @@
-from typing import List, Optional
 from pydantic import BaseModel
 from datetime import date, time
 
 
+
 class BaseCountry(BaseModel):
-    name = str
+    # team_name: Optional[str] = None
+
+    country_name: str
+
+    class Config:
+        orm_mode = True
+
+
+class CreateCountry(BaseCountry):
+    pass
+
+
+class UpdateCountry(BaseCountry):
+    pass
 
 
 class Country(BaseCountry):
-    class Config():
-        orm_mode = True
-
-
-class ShowCountry(BaseCountry):
-    name = str
-
-    class Config():
-        orm_mode = True
-
-
-class BasePlayer(BaseModel):
-    name = str
-    team = int
-    age = int
-    height = int
-    role_in_id = int
-    dob = date
-
-
-class Player(BasePlayer):
-    class Config():
-        orm_mode = True
-
-
-class ShowPlayer(BaseModel):
-    name = str
-    team = int
-    age = int
-    height = int
-    role_in_id = int
-    dob = date
-
-    class Config():
-        orm_mode = True
+    id: int
 
 
 class BaseMatch(BaseModel):
-    date = date
-    time = time
-    venue = int
+    match_date: date
+    venue_id: int
+    tournament_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class CreateMatch(BaseMatch):
+    pass
+
+
+class UpdateMatch(BaseMatch):
+    pass
 
 
 class Match(BaseMatch):
-    class Config():
+    id: int
+
+
+
+class BaseMatchResult(BaseModel):
+
+    match_result: str
+
+    class Config:
         orm_mode = True
 
 
-class ShowMatch(BaseModel):
-    date = date
-    time = time
-    venue = int
-    type = str
-
-    class Config():
-        orm_mode = True
+class CreateMatchResult(BaseMatchResult):
+    pass
 
 
-class BaseResult(BaseModel):
-    result = str
+class UpdateMatchResult(BaseMatchResult):
+    pass
 
 
-class Result(BaseResult):
-    class Config():
-        orm_mode = True
+class MatchResult(BaseMatchResult):
+    id: int
 
 
-class ShowResult(BaseModel):
-    class Config():
-        orm_mode = True
 
 
 class BaseMatchSummary(BaseModel):
-    id = int
-    team_1 = int
-    team_2 = int
-    toss_winner_team = int
-    first_innings_team = int
-    second_innings_team = int
-    captain_team_1 = int
-    captain_team_2 = int
-    winner_team = int
-    losing_team = int
-    man_of_the_match = int
-    bowler_of_the_match = int
-    team_1_runs = int
-    team_2_runs = int
-    team_1_wickets = int
-    team_2_wickets = int
-    best_fielder = int
+    team_1_id: int
+    team_2_id: int
+    captain_player_1_id: int
+    captain_player_2_id: int
+    man_of_match_player_id: int
+    bowler_of_match_player_id: int
+    winner_team_id: int
+    loser_team_id: int
+    team_1_score: int
+    team_2_score: int
+    team_1_wicket: int
+    team_2_wicket: int
+    first_inning_team_id: int
+    match_result_type_id: int
+    match_id: int
+
+    class Config:
+        orm_mode = True
+
+
+class CreateMatchSummary(BaseMatchSummary):
+    pass
+
+
+class UpdateMatchSummary(BaseMatchSummary):
+    pass
 
 
 class MatchSummary(BaseMatchSummary):
-    class Config():
+    id: int
+
+
+
+class BaseMatchType(BaseModel):
+
+    match_type: str
+
+    class Config:
         orm_mode = True
 
 
-class ShowMatchSummary(BaseModel):
-    class Config():
+class CreateMatchType(BaseMatchType):
+    pass
+
+
+class UpdateMatchType(BaseMatchType):
+    pass
+
+
+class MatchType(BaseMatchType):
+    id: int
+
+    class Config:
         orm_mode = True
 
-class BaseVenue(BaseModel):
-    stadium_name = str
-    city = str
 
-class Venue(BaseVenue):
-    class Config():
-        orm_mode = True
-
-class ShowVenue(BaseModel):
-    stadium_name = str
-    city = str
-
-    class Config():
-        orm_mode = True
 
 class BasePlayer(BaseModel):
-    name = str
-    team = int
-    age = int
-    height = int
-    role_in_id = int
-    dob = date
+    name: str
+    age: int
+    dob: date
+    retirement_date: date
+    player_role_id: int
+    team_id: int
+
+    class Config:
+        orm_mode = True
+
+class CreatePlayer(BasePlayer):
+    pass
+
+
+class UpdatePlayer(BasePlayer):
+    pass
+
 
 class Player(BasePlayer):
-    class Config():
+    id: int
+
+
+
+class BasePlayerBatProfile(BaseModel):
+    matches: int
+    innings: int
+    no_of_not_outs: int
+    runs: int
+    highest_score: int
+    average: int
+    no_of_balls_faced: int
+    strike_rate: int
+    half_centuries: int
+    full_centuries: int
+    boundaries: int
+    sixes: int
+    player_id: int
+
+    class Config:
         orm_mode = True
 
-class ShowPlayer(BaseModel):
-    class Config():
+class CreatePlayerBatProfile(BasePlayerBatProfile):
+    pass
+
+class UpdatePlayerBatProfile(BasePlayerBatProfile):
+    pass
+
+
+class PlayerBatProfile(BasePlayerBatProfile):
+    id: int
+
+
+
+class BasePlayerBowlProfile(BaseModel):
+    matches: int
+    innings: int
+    no_of_deliveries: int
+    runs: int
+    wickets: int
+    best_bowling_in_match: int
+    economy: str
+    average: str
+    SR: str
+    W5: str
+    W10: str
+    player_id: int
+
+    class Config:
         orm_mode = True
 
-class BaseBattingProfile(BaseModel):
-    Player_id = int
-    _runs = int
-    current_runs = int
-    matches_played = int
-    sixers = int
-    fours = int
-    full_centuries = int
-    half_centuries = int
+class CreatePlayerBowlProfile(BasePlayerBowlProfile):
+    pass
 
-class BattingProfile(BaseBattingProfile)
-     class Config():
-         orm_mode = True
 
-class ShowBattingProfile(BaseModel):
-    Player_id = int
-    _runs = int
-    current_runs = int
-    matches_played = int
-    sixers = int
-    fours = int
-    full_centuries = int
-    half_centuries = int
+class UpdatePlayerBowlProfile(BasePlayerBowlProfile):
+    pass
 
-    class Config():
+
+class PlayerBowlProfile(BasePlayerBowlProfile):
+    id: int
+
+
+class BasePlayerRole(BaseModel):
+
+    role_name: str
+
+    class Config:
         orm_mode = True
 
 
-class BaseBallingProfile(BaseModel):
-    Player_id = int
-    matches_played = int
-    wickets = int
-    deliveries = int
+class CreatePlayerRole(BasePlayerRole):
+    pass
 
-class BallingProfile(BaseBallingProfile):
-    class Config():
+
+class UpdatePlayerRole(BasePlayerRole):
+    pass
+
+
+class PlayerRole(BasePlayerRole):
+    id: int
+
+
+
+
+
+
+class BaseTeam(BaseModel):
+    # team_name: Optional[str] = None
+
+    team_name: str
+    country_id: int
+
+    class Config:
         orm_mode = True
 
-class ShowBallingProfile(BaseModel):
-    Player_id = int
-    matches_played = int
-    wickets = int
-    deliveries = int
 
-    class Config():
+class CreateTeam(BaseTeam):
+    pass
+
+
+class UpdateTeam(BaseTeam):
+    pass
+
+
+class Team(BaseTeam):
+    id: int
+
+    class Config:
         orm_mode = True
 
-class BaseTeams(BaseModel):
-    name = str
-    country = int
 
-class Teams(BaseTeams):
-    class Config():
-        orm_mode = True
-
-class ShowTeams(BaseModel):
-    name = str
-    country = int
-
-    class Config():
-        orm_mode = True
 
 class BaseTeamProfile(BaseModel):
-    wins = int
-    loses = int
-    matches_played = int
-    rank = int
+    total_wins: int
+    total_loses: int
+    no_of_matches: int
+    rank: int
+    team_id: int
+
+    class Config:
+        orm_mode = True
+
+class CreateTeamProfile(BaseTeamProfile):
+    pass
+
+
+class UpdateTeamProfile(BaseTeamProfile):
+    pass
+
 
 class TeamProfile(BaseTeamProfile):
-    class Config():
-        orm_mode = True
+    id: int
 
-class ShowTeamProfile(BaseModel):
-    wins = int
-    loses = int
-    matches_plyed = int
-    rank = int
-    team = int
-
-    class Config():
-        orm_mode = True
 
 class BaseTournament(BaseModel):
-    teams = int
-    name = str
-    tournament_start = date
-    tournament_end = date
-    first_team = str
-    second_team = str
-    third_team =str
+    name: str
+    first_place_team_id: int
+    second_place_team_id: int
+    third_place_team_id: int
+    start_date: date
+    end_date: date
+    total_points: int
+    team_id: int
 
-class Tournament(BaseTournament):
-    class Config():
+    class Config:
         orm_mode = True
 
-class ShowTournament(BaseModel):
-    orm_mode = True
+class CreateTournament(BaseTournament):
+    pass
+
+class UpdateTournament(BaseTournament):
+    pass
+
+class Tournament(BaseTournament):
+    id: int
+
+
+
+class BaseVenue(BaseModel):
+    venue_name: str
+    venue_location: str
+
+    class Config:
+        orm_mode = True
+
+class CreateVenue(BaseVenue):
+    pass
+
+class UpdateVenue(BaseVenue):
+    pass
+
+class Venue(BaseVenue):
+    id: int
+
+
+
+
+
 
