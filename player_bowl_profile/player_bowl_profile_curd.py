@@ -20,9 +20,6 @@ def create_player_bowl_profile(db: Session, player_bowl_profile: schemas.CreateP
                                                       best_bowling_in_match=player_bowl_profile.best_bowling_in_match,
                                                       economy=player_bowl_profile.economy,
                                                       average=player_bowl_profile.average,
-                                                      SR=player_bowl_profile.SR,
-                                                      W5=player_bowl_profile.W5,
-                                                      W10=player_bowl_profile.W10,
                                                       player_id=player_bowl_profile.player_id)
 
     db.add(new_player_bowl_profile)
