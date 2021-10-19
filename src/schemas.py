@@ -188,9 +188,6 @@ class BasePlayerBowlProfile(BaseModel):
     best_bowling_in_match: int
     economy: str
     average: str
-    SR: str
-    W5: str
-    W10: str
     player_id: int
 
     class Config:
