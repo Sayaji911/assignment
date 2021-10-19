@@ -111,9 +111,6 @@ class PlayerBowlProfile(Base):
     best_bowling_in_match = Column(Integer, nullable=True)
     economy = Column(String, nullable=True)
     average = Column(Integer, nullable=True)
-    SR = Column(String, nullable=True)
-    W5 = Column(String, nullable=True)
-    W10 = Column(String, nullable=True)
     player_id = Column(Integer, ForeignKey('Player.id'))
 
 
